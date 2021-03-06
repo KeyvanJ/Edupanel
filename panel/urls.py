@@ -23,4 +23,7 @@ urlpatterns = [
 
     #auth
     path('signup/', views.signupuser, name='signupuser'),
+
+    #Panel
+    path('panel/', views.panel, name='panel'),
 ]
