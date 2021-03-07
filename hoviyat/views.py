@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
+from django.views.generic import TemplateView
 
 
 def home(request):
@@ -55,3 +56,15 @@ def loginuser(request):
 
 def profpanel(request):
 	return render(request, 'hoviyat/profpanel.html')
+
+class home(TemplateView):
+	template_name = 'home.html'
+
+
+def upload(request):
+	if request.method == 'POST':
+		uploaded_file = request.FILES['document']
+		print(uploaded_file.name)
+		print(uploaded_file.size)
+
+	return render(request, 'hoviyat/upload.html')

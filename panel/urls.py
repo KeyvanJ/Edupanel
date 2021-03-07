@@ -28,5 +28,6 @@ urlpatterns = [
     #Panel
     path('panel/', views.panel, name='panel'),
     path('profpanel/', views.profpanel, name='profpanel'),
+    path('upload/', views.upload, name='upload'),
 
 ]
