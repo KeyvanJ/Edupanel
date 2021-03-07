@@ -1,15 +1,16 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from django.contrib.auth import login
+from django.contrib.auth import login, logout, authenticate
 
 
-
+def home(request):
+	return render(request, 'hoviyat/home.html')
 
 def signupuser(request):
 	if request.method == 'GET':
-		return render(request, 'hoviyat/signupuser.html', {'form':UserCreationForm})
+		return render(request, 'hoviyat/signupuser.html', {'form':UserCreationForm()})
 
 	else:
 		#Create User
@@ -27,8 +28,30 @@ def signupuser(request):
 			return render(request, 'hoviyat/signupuser.html', {'form':UserCreationForm(), 'error':'Passwords did not match'})
 
 
+def logoutuser(request):
+	if request.method == 'POST':
+		logout(request)
+		return redirect('home')
 
 
 
 def panel(request):
 	return render(request, 'hoviyat/panel.html')
+
+def loginuser(request):
+	if request.method == 'GET':
+		return render(request, 'hoviyat/loginuser.html', {'form':AuthenticationForm()})
+
+	else:
+		user = authenticate(request, username=request.POST['username'], password=['password'])
+		if user is None:
+			return render(request, 'hoviyat/loginuser.html', {'form':AuthenticationForm(), 'error':'Username and password did not match'})
+		else: 
+			login(request, user)
+			if request.POST['username'] == 'Ostad':
+				return redirect('profpanel')
+			else:	
+				return redirect('panel')
+
+def profpanel(request):
+	return render(request, 'hoviyat/profpanel.html')
