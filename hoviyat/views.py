@@ -5,7 +5,7 @@ from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
 from django.views.generic import TemplateView
 from django.core.files.storage import FileSystemStorage
-
+from .forms import hwform
 
 
 def home(request):
@@ -74,3 +74,21 @@ def upload(request):
 		#print(url)
 
 	return render(request, 'hoviyat/upload.html', context)
+
+
+def hw_list(request):
+	return render(request, 'hoviyat/hw_list.html')
+
+
+def upload_hw(request):
+	if request.method == 'POST':
+
+		form = hwform(request.POST, request.FILES)
+		if form.is_valid():
+			form.save()
+			return redirect ('hw_list')
+	else:
+		form=hwform()
+	return render(request, 'hoviyat/upload_hw.html', {
+		'form': form
+	})

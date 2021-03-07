@@ -31,6 +31,8 @@ urlpatterns = [
     path('panel/', views.panel, name='panel'),
     path('profpanel/', views.profpanel, name='profpanel'),
     path('upload/', views.upload, name='upload'),
+    path('homework/', views.hw_list, name='hw_list'),
+    path('homework/upload', views.upload_hw, name='upload_hw'),
 
 ]
 
