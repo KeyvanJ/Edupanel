@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
 from django.views.generic import TemplateView
+from django.core.files.storage import FileSystemStorage
+
 
 
 def home(request):
@@ -62,9 +64,13 @@ class home(TemplateView):
 
 
 def upload(request):
+	context = {}
 	if request.method == 'POST':
 		uploaded_file = request.FILES['document']
-		print(uploaded_file.name)
-		print(uploaded_file.size)
+		fs = FileSystemStorage()
+		name = fs.save(uploaded_file.name, uploaded_file)
+		#url = fs.url(name)
+		context['url'] = fs.url(name)
+		#print(url)
 
-	return render(request, 'hoviyat/upload.html')
+	return render(request, 'hoviyat/upload.html', context)
